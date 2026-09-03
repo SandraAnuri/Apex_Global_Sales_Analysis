@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/USER/OneDrive/Documents/Apex_Global_Sales_Backup.db" readonly="0" foreign_keys="0" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2063"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Apex_Global_Sales" custom_title="0" dock_id="2" table="4,17:mainApex_Global_Sales"/><dock_state state="000000ff00000000fd00000001000000020000024800000213fc0100000002fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000000002480000012400ffffff000002480000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Apex_Global_Sales" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="94"/><column index="2" value="85"/><column index="3" value="109"/><column index="4" value="95"/><column index="5" value="47"/><column index="6" value="132"/><column index="7" value="108"/><column index="8" value="148"/><column index="9" value="66"/><column index="10" value="56"/><column index="11" value="57"/><column index="12" value="88"/><column index="13" value="109"/><column index="14" value="88"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">SELECT *
+FROM Apex_Global_Sales;</sql><sql name="SQL 2">SELECT COUNT(*)
+FROM Apex_Global_Sales;</sql><sql name="SQL 3">PRAGMA table_info(Apex_Global_Sales);</sql><sql name="SQL 4">--Poduct category performance--
+--Which product categories generate the most revenue and volume?--
+ --This question is very important because it identifies core revenue drivers for inventory planning.--
+
+SELECT
+   Product_Category,
+   SUM(Quantity) AS total_units_sold,
+   ROUND(SUM(Sales_Amount),2) AS total_revenue
+FROM Apex_Global_Sales
+GROUP BY Product_Category
+ORDER BY total_revenue DESC;</sql><sql name="SQL 5">--Top performing sales representatives--
+--Who are our top sales representatives  based on total revenue generated?--
+--This important for leadership to for appraisals and rewards for top performers andalso to set benchmarks.--
+
+
+SELECT
+   Sales_rep,
+   Region,
+   COUNT(Transaction_ID) AS total_deals_closed,
+   ROUND(SUM(Sales_Amount) , 2) AS total_sales_generated
+FROM Apex_Global_Sales
+GROUP BY Sales_rep, Region
+ORDER BY total_Sales_generated DESC;</sql><sql name="SQL 6">--Customer segment revenue and average order value--
+--Which customer type brings in the highest value per order?--
+--This helps marketing, target higher-value customer segments.--
+
+
+SELECT
+   Customer_type,
+   COUNT(DISTINCT Customer_name) as unique_customers,
+   ROUND(SUM(Sales_amount), 2)as total_revenue,
+   ROUND (AVG(Sales_amount), 2) as average_order_value
+FROM Apex_Global_Sales
+GROUP BY Customer_Type
+ORDER BY total_revenue desc;</sql><sql name="SQL 7*">--Monthly revenue trends( seasonality analysis)--
+--How is revenue trending month over month?--
+--Thishelps to spot seasonal sales peaks or revenue declines over time.--
+
+SELECT
+   SUBSTR(Order_date,1,7) as sales_month,
+   ROUND(SUM(sales_amount),2) as monthly_revenue,
+   COUNT(transaction_id) as total_orders
+FROM Apex_Global_Sales
+WHERE order_date is not null and order_date !='null'
+GROUP BY sales_month
+ORDER BY sales_month Asc;</sql><sql name="SQL 8">--Top sales region(geographic leader)--
+--Which geographic region is performing the best overall?--
+--This guides regional budget allocation and expansion strategies.--
+
+SELECT
+   Region,
+   COUNT(Transaction_id) as total_orders,
+   ROUND(SUM(Sales_amount),2) as regional_revenue
+FROM Apex_Global_Sales
+GROUP BY Region
+ORDER BY regional_revenue desc;
+</sql><sql name="SQL 9">--Underperforming products.--
+--Which specific products have the lowest sales revenue?--
+--This  highlights products needing price adjustments, marketing, or removal.--
+
+SELECT
+   Product_Name,
+   product_category,
+   Sum(quantity) as total_units_sold,
+   round(sum(sales_amount), 2) as product_revenue
+FROM Apex_Global_Sales
+GROUP BY product_name, Product_Category
+ORDER BY product_revenue ASC;</sql><sql name="SQL 10">--Delivery performance risk(operational bottlenecks)--
+--Which regions experience the longest delivery delays?--
+--This will help to identify operational pain points to improve customer satisfaction.--
+
+SELECT
+   Region,
+   Round(avg(delivery_days), 1) as avg_delivery_days,
+   max(delivery_days) as max_delivery_days
+FROM Apex_Global_Sales
+GROUP BY Region
+ORDER BY avg_delivery_days desc;</sql><sql name="SQL 11">-- List all unique products--
+--What are the names and categories of all productssold?--
+
+SELECT 
+   DISTINCT
+   Product_category,
+   Product_Name
+FROM Apex_Global_Sales
+ORDER BY product_category asc, product_name asc;</sql><sql name="SQL 12*">--To get the total number of unique products--
+--Count unique products--
+--How many unique/distinct products does Apex  Global Sales have?--
+
+SELECT
+   COUNT(DISTINCT product_name) as total_unique_products
+FROM Apex_global_sales;
+
+
+</sql><sql name="SQL 13">--Unique products per category--
+--How many distinct products do we sell per category?--
+
+SELECT
+   product_category,
+   COUNT(DISTINCT product_name) as unique_product_count
+FROM Apex_Global_Sales
+GROUP BY Product_Category
+ORDER BY unique_product_count desc;</sql><sql name="SQL 14*">--Query 1:--
+SELECT *
+FROM Apex_Global_Sales;
+
+--Query 2:--
+SELECT COUNT(*)
+FROM Apex_Global_Sales;
+
+--Query 3:--
+PRAGMA table_info(Apex_Global_Sales);
+
+--Query 4:Poduct category performance--
+--Which product categories generate the most revenue and volume?--
+ --This question is very important because it identifies core revenue drivers for inventory planning.--
+
+SELECT
+   Product_Category,
+   SUM(Quantity) AS total_units_sold,
+   ROUND(SUM(Sales_Amount),2) AS total_revenue
+FROM Apex_Global_Sales
+GROUP BY Product_Category
+ORDER BY total_revenue DESC;
+
+--Query 5:Top performing sales representatives--
+--Who are our top sales representatives  based on total revenue generated?--
+--This important for leadership to for appraisals and rewards for top performers andalso to set benchmarks.--
+
+SELECT
+   Sales_rep,
+   Region,
+   COUNT(Transaction_ID) AS total_deals_closed,
+   ROUND(SUM(Sales_Amount) , 2) AS total_sales_generated
+FROM Apex_Global_Sales
+GROUP BY Sales_rep, Region
+ORDER BY total_Sales_generated DESC;
+
+--Query 6:Customer segment revenue and average order value--
+--Which customer type brings in the highest value per order?--
+--This helps marketing, target higher-value customer segments.--
+
+SELECT
+   Customer_type,
+   COUNT(DISTINCT Customer_name) as unique_customers,
+   ROUND(SUM(Sales_amount), 2)as total_revenue,
+   ROUND (AVG(Sales_amount), 2) as average_order_value
+FROM Apex_Global_Sales
+GROUP BY Customer_Type
+ORDER BY total_revenue desc;
+
+--Query 7: Monthly revenue trends( seasonality analysis)--
+--How is revenue trending month over month?--
+--Thishelps to spot seasonal sales peaks or revenue declines over time.--
+
+SELECT
+   SUBSTR(Order_date,1,7) as sales_month,
+   ROUND(SUM(sales_amount),2) as monthly_revenue,
+   COUNT(transaction_id) as total_orders
+FROM Apex_Global_Sales
+WHERE order_date is not null and order_date !='null'
+GROUP BY sales_month
+ORDER BY sales_month Asc;
+
+--Query 8: Top sales region(geographic leader)--
+--Which geographic region is performing the best overall?--
+--This guides regional budget allocation and expansion strategies.--
+
+SELECT
+   Region,
+   COUNT(Transaction_id) as total_orders,
+   ROUND(SUM(Sales_amount),2) as regional_revenue
+FROM Apex_Global_Sales
+GROUP BY Region
+ORDER BY regional_revenue desc;
+
+--Query 9: Underperforming products.--
+--Which specific products have the lowest sales revenue?--
+--This  highlights products needing price adjustments, marketing, or removal.--
+
+SELECT
+   Product_Name,
+   product_category,
+   Sum(quantity) as total_units_sold,
+   round(sum(sales_amount), 2) as product_revenue
+FROM Apex_Global_Sales
+GROUP BY product_name, Product_Category
+ORDER BY product_revenue ASC;
+
+--Query 10: Delivery performance risk(operational bottlenecks)--
+--Which regions experience the longest delivery delays?--
+--This will help to identify operational pain points to improve customer satisfaction.--
+
+SELECT
+   Region,
+   Round(avg(delivery_days), 1) as avg_delivery_days,
+   max(delivery_days) as max_delivery_days
+FROM Apex_Global_Sales
+GROUP BY Region
+ORDER BY avg_delivery_days desc;
+
+--Query 11:List all unique products--
+--What are the names and categories of all productssold?--
+
+SELECT 
+   DISTINCT
+   Product_category,
+   Product_Name
+FROM Apex_Global_Sales
+ORDER BY product_category asc, product_name asc;
+
+--Query 12: To get the total number of unique products--
+--Count unique products--
+--How many unique/distinct products does Apex  Global Sales have?--
+
+SELECT
+   COUNT(DISTINCT product_name) as total_unique_products
+FROM Apex_global_sales;
+
+--Query 13:Unique products per category--
+--How many distinct products do we sell per category?--
+
+SELECT
+   product_category,
+   COUNT(DISTINCT product_name) as unique_product_count
+FROM Apex_Global_Sales
+GROUP BY Product_Category
+ORDER BY unique_product_count desc;
+</sql><current_tab id="13"/></tab_sql></sqlb_project>
