@@ -15,6 +15,7 @@ Power BI dashboard utilizing calculated metrics and data aggregations, containin
 
 * **04_Apex_Global_tableau_Sales_Dashboard_2026.twbx**
 Interactive executive dashboard built in Tableau Desktop featuring dynamic region slicers, multi-sheet cross-filtering, and customized tooltips to deliver real-time sales visibility across regions and product categories.
+* [Live Tableau Dashboard](https://public.tableau.com/app/profile/sandra.egwuabor/viz/ApexGlobalSalesAnalysis/ApexGlobalSalesDashboard?publish=yes)
 ---
 ## Key Business Takeaways
 * **Top Revenue Drivers:** A few sales representatives and core regions account for most of the overall margin.
