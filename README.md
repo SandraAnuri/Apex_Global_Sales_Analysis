@@ -12,6 +12,9 @@ SQL queries used to calculate core business metrics, including total revenue, av
 
 * **03_Apex_Global_pbi_Sales_Dashboard_2026.pbix**
 Power BI dashboard utilizing calculated metrics and data aggregations, containing a dynamic data model and interactive visuals to display key performance indicators across two executive report pages.
+
+* **04_Apex_Global_tableau_Sales_Dashboard_2026.twbx**
+Interactive executive dashboard built in Tableau Desktop featuring dynamic region slicers, multi-sheet cross-filtering, and customized tooltips to deliver real-time sales visibility across regions and product categories.
 ---
 ## Key Business Takeaways
 * **Top Revenue Drivers:** A few sales representatives and core regions account for most of the overall margin.
